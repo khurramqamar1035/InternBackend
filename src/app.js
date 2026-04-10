@@ -28,10 +28,11 @@ const allowedOrigins = env.clientUrl
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, curl, Render health checks)
+      // Allow requests with no origin (curl, Render health checks, mobile apps)
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) return callback(null, true);
-      callback(new Error(`CORS: origin "${origin}" not allowed`));
+      // Return false (not an error) so Express sends a clean 403, not a 500
+      return callback(null, false);
     },
     credentials: true
   })
