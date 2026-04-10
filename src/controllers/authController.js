@@ -6,10 +6,15 @@ import { signAccessToken, signRefreshToken } from "../utils/generateTokens.js";
 import { hashToken } from "../utils/hashToken.js";
 import { env } from "../config/env.js";
 
+// Cross-origin deployments (Vercel frontend → Render backend) require
+// sameSite: "none" + secure: true so the browser sends the cookie cross-site.
+// In local dev (http) we fall back to sameSite: "lax" so it still works.
+const isProduction = env.nodeEnv === "production";
+
 const refreshCookieOptions = {
   httpOnly: true,
-  secure: env.cookieSecure,
-  sameSite: "lax",
+  secure: isProduction ? true : env.cookieSecure,
+  sameSite: isProduction ? "none" : "lax",
   path: "/api/auth/refresh"
 };
 
