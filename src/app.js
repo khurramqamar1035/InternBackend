@@ -3,7 +3,9 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import rateLimit from "express-rate-limit";
 import { env } from "./config/env.js";
+import { logger } from "./utils/logger.js";
 import authRoutes from "./routes/authRoutes.js";
 import gameRoutes from "./routes/gameRoutes.js";
 import progressRoutes from "./routes/progressRoutes.js";
@@ -13,13 +15,53 @@ import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
 const app = express();
 
-app.use(helmet());
-app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
-app.use(express.json({ limit: "1mb" }));
+// ── Security headers ──────────────────────────────────────────────────────────
+app.use(helmet({
+  crossOriginEmbedderPolicy: false, // allow Vercel to embed if needed
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      frameAncestors: ["'none'"]
+    }
+  }
+}));
+
+// ── HTTP logging (stdout only — no sensitive body logged) ─────────────────────
+app.use(morgan(env.nodeEnv === "production"
+  ? ':remote-addr - :method :url :status :res[content-length] - :response-time ms'
+  : "dev"
+));
+
+// ── Body parsing ──────────────────────────────────────────────────────────────
+app.use(express.json({ limit: "50kb" })); // tight limit — no large payloads expected
+app.use(express.urlencoded({ extended: false, limit: "50kb" }));
 app.use(cookieParser());
 
-// CLIENT_URL can be a single URL or comma-separated list of allowed origins.
-// e.g. "https://your-app.vercel.app,http://localhost:5173"
+// ── NoSQL injection sanitizer — strips keys starting with $ or containing . ───
+app.use((req, _res, next) => {
+  const sanitize = (obj) => {
+    if (!obj || typeof obj !== "object") return;
+    for (const key of Object.keys(obj)) {
+      if (key.startsWith("$") || key.includes(".")) {
+        delete obj[key];
+      } else {
+        sanitize(obj[key]);
+      }
+    }
+  };
+  sanitize(req.body);
+  sanitize(req.query);
+  sanitize(req.params);
+  next();
+});
+
+// ── CORS ──────────────────────────────────────────────────────────────────────
 const allowedOrigins = env.clientUrl
   .split(",")
   .map((o) => o.trim())
@@ -28,27 +70,38 @@ const allowedOrigins = env.clientUrl
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (curl, Render health checks, mobile apps)
-      if (!origin) return callback(null, true);
+      if (!origin) return callback(null, true); // curl / Render health checks
       if (allowedOrigins.includes(origin)) return callback(null, true);
-      // Return false (not an error) so Express sends a clean 403, not a 500
+      logger.warn("CORS blocked request", { origin });
       return callback(null, false);
     },
     credentials: true
   })
 );
 
-// Root + health — used by Render's health checker
-app.get("/", (req, res) => res.json({ name: "CyberSage API", status: "ok" }));
-app.get("/api/health", (req, res) => res.json({ ok: true, environment: env.nodeEnv }));
+// ── Global rate limiter — loose fallback for all routes ───────────────────────
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: "Too many requests, please slow down." }
+});
+app.use(globalLimiter);
 
-app.use("/api/auth", authRoutes);
-app.use("/api/game", gameRoutes);
+// ── Health / root ─────────────────────────────────────────────────────────────
+app.get("/", (_req, res) => res.json({ name: "CyberSage API", status: "ok" }));
+app.get("/api/health", (_req, res) => res.json({ ok: true, environment: env.nodeEnv }));
+
+// ── API routes ────────────────────────────────────────────────────────────────
+app.use("/api/auth",     authRoutes);
+app.use("/api/game",     gameRoutes);
 app.use("/api/progress", progressRoutes);
-app.use("/api/exam", examRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/exam",     examRoutes);
+app.use("/api/admin",    adminRoutes);
+
+// ── Error handling ────────────────────────────────────────────────────────────
 app.use(notFound);
 app.use(errorHandler);
-
 
 export default app;

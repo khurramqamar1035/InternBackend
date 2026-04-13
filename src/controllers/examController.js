@@ -1,6 +1,7 @@
 import ExamSession from "../models/ExamSession.js";
 import Progress from "../models/Progress.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { logger } from "../utils/logger.js";
 
 const EXAM_DURATION_MINUTES = 30;
 
@@ -21,6 +22,7 @@ export const startExam = asyncHandler(async (req, res) => {
     endsAt,
     duration: EXAM_DURATION_MINUTES
   });
+  logger.security("Exam started", { userId: req.user._id, sessionId: session._id, endsAt });
   res.status(201).json({ session });
 });
 
@@ -51,6 +53,7 @@ export const completeExam = asyncHandler(async (req, res) => {
   session.flagsCaptured = allProgress.length;
 
   await session.save();
+  logger.security("Exam completed", { userId: req.user._id, flags: session.flagsCaptured, points: session.totalPoints });
   res.json({ session, message: "Exam completed." });
 });
 
@@ -69,5 +72,6 @@ export const tabFinish = asyncHandler(async (req, res) => {
   session.flagsCaptured = allProgress.length;
 
   await session.save();
+  logger.security("Exam auto-completed — tab violation", { userId: req.user._id, flags: session.flagsCaptured });
   res.json({ session, message: "Exam auto-completed due to tab switch." });
 });

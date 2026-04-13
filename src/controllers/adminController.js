@@ -3,9 +3,9 @@ import User from "../models/User.js";
 import ExamSession from "../models/ExamSession.js";
 import Progress from "../models/Progress.js";
 import Scenario from "../models/Scenario.js";
-// Scenario is already imported above — used by getAdminScenarios + updateScenario
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendStudentCredentials } from "../utils/emailService.js";
+import { logger } from "../utils/logger.js";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -64,11 +64,17 @@ export const createStudent = asyncHandler(async (req, res) => {
   try {
     await sendStudentCredentials({ name: user.name, email: user.email, password: plainPassword, studentId });
     emailSent = true;
+    logger.info("Student credentials emailed", { studentId, email: user.email });
   } catch (emailErr) {
-    console.error("⚠ Email send failed:", emailErr.message);
-    console.error("  → Check BREVO_USER and BREVO_SMTP_KEY in your .env file");
-    console.error("  → Make sure nodemailer is installed: npm install nodemailer");
+    logger.error("Email delivery failed", { studentId, email: user.email, error: emailErr.message });
   }
+
+  logger.security("Admin created student account", {
+    adminId: req.user._id,
+    studentId,
+    email: user.email,
+    emailSent
+  });
 
   res.status(201).json({
     message: emailSent
@@ -110,6 +116,7 @@ export const updateScenario = asyncHandler(async (req, res) => {
   if (answers !== undefined) scenario.answers = answers;
 
   await scenario.save();
+  logger.security("Admin updated scenario", { adminId: req.user._id, scenarioId: id, title: scenario.title });
   res.json({ message: "Scenario updated.", scenario });
 });
 
