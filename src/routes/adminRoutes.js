@@ -3,7 +3,7 @@ import { z } from "zod";
 import rateLimit from "express-rate-limit";
 import {
   createStudent, getStudents, getStudentDetail, getAdminLeaderboard,
-  getAdminScenarios, updateScenario
+  getAdminScenarios, updateScenario, pardonExam, toggleExamAccess
 } from "../controllers/adminController.js";
 import { protect, authorize } from "../middlewares/authMiddleware.js";
 import { validate } from "../middlewares/validateMiddleware.js";
@@ -39,9 +39,11 @@ const updateScenarioSchema = z.object({
 });
 
 // Students
-router.post("/students",         createStudentLimiter, validate(createStudentSchema), createStudent);
-router.get("/students",          getStudents);
-router.get("/students/:userId",  getStudentDetail);
+router.post("/students",                    createStudentLimiter, validate(createStudentSchema), createStudent);
+router.get("/students",                     getStudents);
+router.get("/students/:userId",             getStudentDetail);
+router.post("/students/:userId/pardon",     pardonExam);
+router.put("/students/:userId/exam-access", toggleExamAccess);
 
 // Leaderboard
 router.get("/leaderboard",       getAdminLeaderboard);

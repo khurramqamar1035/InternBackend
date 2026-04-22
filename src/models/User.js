@@ -3,49 +3,18 @@ import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 2,
-      maxlength: 80
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
-      index: true
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 8,
-      select: false
-    },
-    role: {
-      type: String,
-      enum: ["user", "student", "admin"],
-      default: "student"
-    },
-    studentId: {
-      type: String,
-      unique: true,
-      sparse: true // null for admin accounts
-    },
-    isEmailVerified: {
-      type: Boolean,
-      default: false
-    },
-    lastLoginAt: {
-      type: Date,
-      default: null
-    }
+    name: { type: String, required: true, trim: true, minlength: 2, maxlength: 80 },
+    email: { type: String, required: true, unique: true, lowercase: true, trim: true, index: true },
+    password: { type: String, required: true, minlength: 8, select: false },
+    role: { type: String, enum: ["user", "student", "admin"], default: "student" },
+    studentId: { type: String, unique: true, sparse: true },
+    skills: { type: [String], default: [] },          // student-editable, max 10
+    avatar: { type: String, default: null },           // Cloudinary URL
+    examEnabled: { type: Boolean, default: false },    // admin unlocks exam per student
+    isEmailVerified: { type: Boolean, default: false },
+    lastLoginAt: { type: Date, default: null }
   },
-  {
-    timestamps: true
-  }
+  { timestamps: true }
 );
 
 userSchema.pre("save", async function (next) {

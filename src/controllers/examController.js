@@ -3,9 +3,14 @@ import Progress from "../models/Progress.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { logger } from "../utils/logger.js";
 
-const EXAM_DURATION_MINUTES = 30;
+const EXAM_DURATION_MINUTES = 90;
 
 export const startExam = asyncHandler(async (req, res) => {
+  // Block if admin hasn't unlocked the exam for this student
+  if (!req.user.examEnabled) {
+    return res.status(403).json({ message: "Your exam access has not been unlocked yet. Please contact your administrator." });
+  }
+
   const existing = await ExamSession.findOne({ user: req.user._id });
   if (existing) {
     // If already completed, block retake

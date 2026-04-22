@@ -124,7 +124,7 @@ export const updateScenario = asyncHandler(async (req, res) => {
 // Returns all non-admin users with their exam session status
 export const getStudents = asyncHandler(async (req, res) => {
   const students = await User.find({ role: { $ne: "admin" } })
-    .select("name email studentId createdAt")
+    .select("name email studentId avatar skills examEnabled createdAt")
     .sort({ createdAt: -1 })
     .lean();
 
@@ -144,6 +144,9 @@ export const getStudents = asyncHandler(async (req, res) => {
       name: student.name,
       email: student.email,
       studentId: student.studentId,
+      avatar: student.avatar ?? null,
+      skills: student.skills ?? [],
+      examEnabled: student.examEnabled ?? false,
       createdAt: student.createdAt,
       examStatus: session
         ? session.isCompleted
@@ -167,7 +170,7 @@ export const getStudents = asyncHandler(async (req, res) => {
 export const getStudentDetail = asyncHandler(async (req, res) => {
   const { userId } = req.params;
 
-  const student = await User.findById(userId).select("name email").lean();
+  const student = await User.findById(userId).select("name email studentId avatar skills examEnabled").lean();
   if (!student) return res.status(404).json({ message: "Student not found" });
 
   const session = await ExamSession.findOne({ user: userId }).lean();
@@ -204,7 +207,85 @@ export const getStudentDetail = asyncHandler(async (req, res) => {
 });
 
 // GET /api/admin/leaderboard
-// Full leaderboard with points (admin-only)
+// POST /api/admin/students/:userId/pardon
+// Allows admin to let a tab-violated student resume their exam
+export const pardonExam = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  const student = await User.findById(userId).lean();
+  if (!student) return res.status(404).json({ message: "Student not found." });
+
+  const session = await ExamSession.findOne({ user: userId });
+  if (!session) return res.status(404).json({ message: "No exam session found for this student." });
+
+  if (!session.tabViolation) {
+    return res.status(400).json({ message: "This student has no tab violation to pardon." });
+  }
+  if (!session.isCompleted) {
+    return res.status(400).json({ message: "Exam is not completed — no pardon needed." });
+  }
+
+  // Calculate remaining time the student had when the violation occurred.
+  // If completedAt is set, use endsAt - completedAt. Otherwise give 10 min grace.
+  const MIN_GRACE_MS = 10 * 60 * 1000; // 10 minutes minimum
+  let remaining = session.completedAt
+    ? session.endsAt.getTime() - session.completedAt.getTime()
+    : MIN_GRACE_MS;
+  if (remaining < MIN_GRACE_MS) remaining = MIN_GRACE_MS;
+
+  const newEndsAt = new Date(Date.now() + remaining);
+
+  session.isCompleted  = false;
+  session.tabViolation = false;
+  session.completedAt  = null;
+  session.endsAt       = newEndsAt;
+  session.adminPardoned = true;
+  session.pardons.push({ grantedBy: req.user._id, grantedAt: new Date(), newEndsAt });
+
+  await session.save();
+
+  logger.security("Admin pardoned tab violation", {
+    adminId: req.user._id,
+    studentId: userId,
+    newEndsAt,
+    remainingMinutes: Math.round(remaining / 60000)
+  });
+
+  res.json({
+    message: `Exam resumed. ${student.name} has ${Math.round(remaining / 60000)} minutes remaining.`,
+    session
+  });
+});
+
+// PUT /api/admin/students/:userId/exam-access — toggle or explicitly set examEnabled
+export const toggleExamAccess = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  const student = await User.findById(userId);
+  if (!student || student.role === "admin") {
+    return res.status(404).json({ message: "Student not found." });
+  }
+
+  // If body contains explicit `enabled` boolean use it; otherwise toggle
+  const newState = req.body.enabled !== undefined
+    ? Boolean(req.body.enabled)
+    : !student.examEnabled;
+
+  student.examEnabled = newState;
+  await student.save();
+
+  logger.security("Admin toggled exam access", {
+    adminId: req.user._id,
+    studentId: userId,
+    examEnabled: newState
+  });
+
+  res.json({
+    message: `Exam access ${newState ? "unlocked" : "locked"} for ${student.name}.`,
+    examEnabled: newState
+  });
+});
+
+// GET /api/admin/leaderboard — Full leaderboard with points (admin-only)
 export const getAdminLeaderboard = asyncHandler(async (req, res) => {
   const rows = await ExamSession.find({ isCompleted: true })
     .populate("user", "name email")

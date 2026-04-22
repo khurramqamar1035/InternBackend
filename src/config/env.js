@@ -13,7 +13,11 @@ export const env = {
   cookieSecure: String(process.env.COOKIE_SECURE) === "true",
   // Brevo email — API key from Settings → SMTP & API → API Keys tab
   brevoUser: process.env.BREVO_USER,       // your Brevo sender email
-  brevoSmtpKey: process.env.BREVO_SMTP_KEY // API key (starts with xkeysib-)
+  brevoSmtpKey: process.env.BREVO_SMTP_KEY,// API key (starts with xkeysib-)
+  // Cloudinary — for profile photo uploads
+  cloudinaryName:   process.env.CLOUDINARY_NAME,
+  cloudinaryKey:    process.env.CLOUDINARY_KEY,
+  cloudinarySecret: process.env.CLOUDINARY_SECRET
 };
 
 if (!env.mongodbUri) throw new Error("MONGODB_URI is missing");
