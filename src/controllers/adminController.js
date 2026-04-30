@@ -176,7 +176,7 @@ export const getStudentDetail = asyncHandler(async (req, res) => {
   const session = await ExamSession.findOne({ user: userId }).lean();
 
   const progresses = await Progress.find({ user: userId })
-    .populate("scenario", "title slug type category difficulty points")
+    .populate("scenario", "title slug type category difficulty points content")
     .lean();
 
   const challenges = progresses.map((p) => ({
@@ -187,8 +187,10 @@ export const getStudentDetail = asyncHandler(async (req, res) => {
     category: p.scenario?.category,
     difficulty: p.scenario?.difficulty,
     maxPoints: p.scenario?.points,
+    // Include scenario content so admin can show full question + option text
+    content: p.scenario?.content ?? null,
     status: p.status,
-    flagCaptured: p.flagCaptured,
+    passed: p.flagCaptured,           // renamed for clarity — true = all correct
     pointsEarned: p.pointsEarned,
     timeBonus: p.timeBonus,
     attempts: p.attempts,

@@ -12,7 +12,7 @@ const inboxAmbush = {
   title: "Inbox Ambush",
   slug: "inbox-ambush",
   description:
-    "Twenty emails have landed in the company inbox. Classify each one as Phishing or Legitimate — a single misclassification will cost you the flag.",
+    "Twenty emails have landed in the company inbox. Classify each one as Phishing or Legitimate — spot fake sender domains, urgency tactics, and credential-harvesting tricks.",
   category: "phishing",
   type: "phishing",
   difficulty: "basic",
@@ -44,14 +44,14 @@ const inboxAmbush = {
         id: 2,
         subject: "Invoice #4521 — Payment Failed, Immediate Action Required",
         sender: "billing@paypa1-secure.com",
-        body: "Your last payment of £49.99 failed due to insufficient funds. Update your billing information within 12 hours to avoid service interruption and a £15 late fee. Click here: http://paypa1-secure.com/update"
+        body: "Your last payment of ₹4,999 failed due to insufficient funds. Update your billing information within 12 hours to avoid service interruption and a ₹500 late fee. Click here: http://paypa1-secure.com/update"
       },
       // 3 — LEGIT
       {
         id: 3,
         subject: "Expense Report EXP-2041 Approved",
         sender: "finance@insidebreach.io",
-        body: "Your expense report (ref: EXP-2041) for £230.00 has been reviewed and approved. Payment will be included in the next payroll cycle. Contact finance@insidebreach.io with any questions."
+        body: "Your expense report (ref: EXP-2041) for ₹2,300 has been reviewed and approved. Payment will be included in the next payroll cycle. Contact finance@insidebreach.io with any questions."
       },
       // 4 — PHISHING
       {
@@ -72,14 +72,14 @@ const inboxAmbush = {
         id: 6,
         subject: "Quick Favour — Confidential",
         sender: "ceo@insidebreach-corp.co",
-        body: "Hi, it's Sarah. I'm in back-to-back board meetings and can't access my account. I need you to purchase 4 × £100 Amazon gift cards and WhatsApp me the redemption codes urgently. I'll reimburse you end of day. Please keep this between us."
+        body: "Hi, it's Sarah. I'm in back-to-back board meetings and can't access my account. I need you to purchase 4 × ₹500 Amazon gift cards and WhatsApp me the redemption codes urgently. I'll reimburse you end of day. Please keep this between us."
       },
       // 7 — PHISHING
       {
         id: 7,
         subject: "Your Apple ID has been locked",
         sender: "noreply@app1e-id-verify.com",
-        body: "Your Apple ID was used to sign in from an unrecognised device in Ukraine. If this wasn't you, your account has been locked for security. Verify your identity at: http://app1e-id-verify.com/unlock"
+        body: "Your Apple ID was used to sign in from an unrecognised device in another country. If this wasn't you, your account has been locked for security. Verify your identity at: http://app1e-id-verify.com/unlock"
       },
       // 8 — PHISHING
       {
@@ -105,9 +105,9 @@ const inboxAmbush = {
       // 11 — PHISHING
       {
         id: 11,
-        subject: "NatWest Alert: Suspicious Transaction Detected — Verify Now",
-        sender: "fraud-alert@natwest-verify.co.uk",
-        body: "A transaction of £893.00 to an overseas merchant was flagged on your account. If you did not authorise this, click here immediately to freeze your card and dispute the charge. Failure to act within 2 hours may result in permanent loss of funds."
+        subject: "SBI Alert: Suspicious Transaction Detected — Verify Now",
+        sender: "fraud-alert@sbi-verify.co.in",
+        body: "A transaction of ₹89,300 to an overseas merchant was flagged on your account. If you did not authorise this, click here immediately to freeze your card and dispute the charge. Failure to act within 2 hours may result in permanent loss of funds."
       },
       // 12 — LEGIT
       {
@@ -133,7 +133,7 @@ const inboxAmbush = {
       // 15 — LEGIT
       {
         id: 15,
-        subject: "All-Hands Meeting — Thu 11 Apr, 14:00 BST",
+        subject: "All-Hands Meeting — Thu 11 Apr, 14:00 IST",
         sender: "calendar@insidebreach.io",
         body: "You are invited to the quarterly all-hands. Agenda: Q1 results, product roadmap, and open Q&A with leadership. Meeting link will be sent 30 minutes before the session. Please confirm your attendance."
       },
@@ -147,9 +147,9 @@ const inboxAmbush = {
       // 17 — LEGIT
       {
         id: 17,
-        subject: "Updated Holiday Policy — Effective 1 May",
+        subject: "Updated Leave Policy — Effective 1 May",
         sender: "hr@insidebreach.io",
-        body: "Please review the updated holiday booking policy attached to this email. Key changes include: carry-over allowance increased to 5 days, and the booking window now opens 6 months in advance. Reach out to hr@insidebreach.io with questions."
+        body: "Please review the updated leave booking policy attached to this email. Key changes include: carry-over allowance increased to 5 days, and the booking window now opens 6 months in advance. Reach out to hr@insidebreach.io with questions."
       },
       // 18 — LEGIT
       {
@@ -163,7 +163,7 @@ const inboxAmbush = {
         id: 19,
         subject: "Reminder: 1:1 with Sarah — Tomorrow 10:00",
         sender: "calendar-noreply@google.com",
-        body: "This is a reminder for your upcoming event: 1:1 with Sarah Porter, Wednesday 10 April at 10:00 BST. Location: Google Meet. You can view or edit this event in Google Calendar."
+        body: "This is a reminder for your upcoming event: 1:1 with Sarah Porter, Wednesday 10 April at 10:00 IST. Location: Google Meet. You can view or edit this event in Google Calendar."
       }
     ]
   },
@@ -220,14 +220,14 @@ const pretextingCall = {
         id: 3,
         subject: "Your expense report has been approved",
         sender: "finance@insidebreach.io",
-        body: "Your expense claim (ref: EXP-2088) for £180.50 was approved and will be paid in the next payroll cycle. No further action is needed."
+        body: "Your expense claim (ref: EXP-2088) for ₹1,805 was approved and will be paid in the next payroll cycle. No further action is needed."
       },
       // 4 — SOCIAL ENG (CEO fraud)
       {
         id: 4,
         subject: "Confidential — board request",
         sender: "ceo@insidebreach-leadership.co",
-        body: "I'm in a confidential board discussion and need your help urgently. Please wire £4,200 to the account details below. This is time-sensitive and must not be discussed with anyone else until I authorise it. I'll explain everything tomorrow."
+        body: "I'm in a confidential board discussion and need your help urgently. Please transfer ₹42,000 to the account details below. This is time-sensitive and must not be discussed with anyone else until I authorise it. I'll explain everything tomorrow."
       },
       // 5 — SOCIAL ENG
       {
@@ -253,16 +253,16 @@ const pretextingCall = {
       // 8 — SOCIAL ENG
       {
         id: 8,
-        subject: "HMRC: Outstanding tax return — legal action pending",
-        sender: "noreply@hmrc-gov-uk.net",
-        body: "Our records show you have an outstanding self-assessment tax return from 2022–23. Failure to respond within 48 hours will result in a court summons and £3,000 penalty. Call our automated line or click here to make payment and avoid prosecution."
+        subject: "Income Tax Dept: Outstanding return — legal action pending",
+        sender: "noreply@incometax-gov-in.net",
+        body: "Our records show you have an outstanding income tax return for AY 2022–23. Failure to respond within 48 hours will result in a court summons and ₹30,000 penalty. Call our automated line or click here to make payment and avoid prosecution."
       },
       // 9 — SOCIAL ENG
       {
         id: 9,
         subject: "You've been selected for a security training survey — gift card reward",
         sender: "surveys@corporate-training-hub.net",
-        body: "You've been selected to complete a 5-minute cybersecurity awareness survey. As a thank-you, you'll receive a £50 Amazon gift card. Please provide your full name, work email, and employee ID to claim your reward after completion."
+        body: "You've been selected to complete a 5-minute cybersecurity awareness survey. As a thank-you, you'll receive a ₹500 Amazon gift card. Please provide your full name, work email, and employee ID to claim your reward after completion."
       },
       // 10 — SOCIAL ENG (reverse social engineering)
       {
@@ -289,8 +289,8 @@ const pretextingCall = {
       {
         id: 13,
         subject: "SMS from: InsideBreach-IT",
-        sender: "SMS +447911123456",
-        body: "InsideBreach IT: Your MFA device has been deregistered due to suspicious activity. Reply YES to re-register your current device, or call 0800-123-456 to speak to IT security. Do not log in until this is resolved."
+        sender: "SMS +91-98XXXXXXXX",
+        body: "InsideBreach IT: Your MFA device has been deregistered due to suspicious activity. Reply YES to re-register your current device, or call 1800-XXX-XXXX to speak to IT security. Do not log in until this is resolved."
       },
       // 14 — LEGIT
       {
@@ -343,268 +343,331 @@ const pretextingCall = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SCENARIO 3 — Code Review (20 MCQ across 4 code blocks)
+// SCENARIO 3 — Code Review with C & Java (20 MCQ across 4 code blocks)
+// Designed for FY B.Tech students (Sem I & II) who know C/C++ and Java basics
 // ─────────────────────────────────────────────────────────────────────────────
 const brokenAuth = {
-  title: "Security Audit",
+  title: "Code Clinic",
   slug: "broken-auth",
   description:
-    "You are auditing a Node.js web application codebase. Four code modules have been flagged for review. Analyse each one and answer the questions.",
+    "Four code snippets written by junior developers have been flagged for review. Use your knowledge of C and Java to find the bugs and security issues in each module.",
   category: "code-review",
   type: "code-review",
   difficulty: "basic",
   points: 300,
   timeLimit: 900,
   hints: [
-    { text: "For SQL vulnerabilities: look at how user input reaches the database query. Direct string concatenation is dangerous.", cost: 25 },
-    { text: "For XSS: innerHTML directly assigns HTML — any user-supplied string becomes executable markup.", cost: 20 },
-    { text: "MD5 and SHA-1 are NOT safe for password storage — they are too fast and have no salt by default.", cost: 20 },
-    { text: "Path traversal: '../' sequences in filenames let attackers walk outside the intended directory.", cost: 15 }
+    { text: "In C, gets() reads input without any length limit — it can overwrite memory beyond the buffer. Always use fgets() instead.", cost: 25 },
+    { text: "In Java, using == to compare String objects checks memory address, not content. Use .equals() for correct string comparison.", cost: 20 },
+    { text: "In C, accessing an array at index 5 when its size is 5 (valid indices: 0–4) causes undefined behaviour.", cost: 20 },
+    { text: "Hardcoded passwords in source code are always a security risk — anyone with code access can read them.", cost: 15 }
   ],
   content: {
     codeBlocks: [
       {
-        title: "Module A — user-auth.js (SQL Injection)",
-        code: `async function loginUser(username, password) {
-  const query =
-    "SELECT * FROM users WHERE username = '" + username +
-    "' AND password = '" + password + "'";
-  const result = await db.query(query);
-  return result.rows.length > 0
-    ? { success: true, user: result.rows[0] }
-    : { success: false };
+        title: "Module A — input.c (Unsafe C Input Handling)",
+        code: `#include <stdio.h>
+#include <string.h>
+
+void greetUser() {
+    char name[10];
+    printf("Enter your name: ");
+    gets(name);                    // reads input from user
+    printf("Hello, %s!\\n", name);
 }
 
-async function getUserById(userId) {
-  const query = \`SELECT * FROM users WHERE id = \${userId}\`;
-  return await db.query(query);
+int isAdult(int age) {
+    if (age = 18) {               // checks if user is an adult
+        return 1;
+    }
+    return 0;
 }
 
-async function searchUsers(searchTerm) {
-  const query = "SELECT id, name FROM users WHERE name LIKE '%" + searchTerm + "%'";
-  return await db.query(query);
+void copyData(char* dest, char* src) {
+    strcpy(dest, src);            // copies src string into dest
 }`
       },
       {
-        title: "Module B — comments.js (XSS)",
-        code: `function renderComment(comment) {
-  const div = document.createElement('div');
-  div.innerHTML = comment.text;   // user-supplied
-  document.getElementById('comments').appendChild(div);
-}
+        title: "Module B — UserAuth.java (Java Authentication Class)",
+        code: `public class UserAuth {
+    private static final String ADMIN_PASS = "admin123";
 
-function displayUsername(username) {
-  document.getElementById('welcome').innerHTML =
-    'Welcome back, ' + username + '!';
-}
+    public boolean login(String username, String password) {
+        if (username == "admin" && password == ADMIN_PASS) {
+            return true;
+        }
+        return false;
+    }
 
-function buildProfileCard(user) {
-  return \`<div class="profile">
-    <h2>\${user.displayName}</h2>
-    <p>\${user.bio}</p>
-  </div>\`;
+    public boolean isStrongPassword(String pass) {
+        return pass.length() > 4;
+    }
+
+    public void printDetails(String user, String pass) {
+        System.out.println("User: " + user + ", Pass: " + pass);
+    }
 }`
       },
       {
-        title: "Module C — registration.js (Password Storage)",
-        code: `const md5 = require('md5');
-const sha1 = require('sha1');
+        title: "Module C — scores.c (C Array & Arithmetic Operations)",
+        code: `#include <stdio.h>
 
-async function registerUser(username, password) {
-  const hashedPassword = md5(password);
-  await db.query(
-    'INSERT INTO users (username, password) VALUES ($1, $2)',
-    [username, hashedPassword]
-  );
+int multiply(int a, int b) {
+    return a * b;
 }
 
-async function verifyPassword(input, storedHash) {
-  return md5(input) === storedHash;
+float divide(float a, float b) {
+    return a / b;              // divides two numbers
 }
 
-async function resetPassword(userId, newPassword) {
-  const hashed = sha1(newPassword);
-  await db.query(
-    'UPDATE users SET password = $1 WHERE id = $2',
-    [hashed, userId]
-  );
+int getScore(int scores[], int index) {
+    return scores[index];      // returns element at given index
+}
+
+int main() {
+    int scores[5] = {80, 75, 90, 88, 70};
+    printf("%d\\n", getScore(scores, 10));
+    printf("%.2f\\n", divide(10.0, 0.0));
+    return 0;
 }`
       },
       {
-        title: "Module D — files.js (Path Traversal + IDOR)",
-        code: `const path = require('path');
+        title: "Module D — MarksEntry.java (Java Array & Data Handling)",
+        code: `import java.util.Scanner;
 
-// File download endpoint
-app.get('/download', (req, res) => {
-  const filename = req.query.file;
-  const filepath = path.join(__dirname, 'uploads', filename);
-  res.sendFile(filepath);
-});
+public class MarksEntry {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int[] marks = new int[5];
 
-// Invoice endpoint — no authorisation check
-app.get('/api/invoice/:id', async (req, res) => {
-  const invoice = await Invoice.findById(req.params.id);
-  res.json(invoice);
-});
+        for (int i = 0; i <= 5; i++) {   // loop to enter 5 marks
+            marks[i] = sc.nextInt();
+        }
 
-// User profile — reads file from username
-app.get('/profile-pic', async (req, res) => {
-  const username = req.query.user;
-  res.sendFile(\`/var/www/avatars/\${username}.png\`);
-});`
+        String dbPassword = "college@123";
+        System.out.println("DB connected: " + dbPassword);
+
+        int total = 0;
+        for (int i = 0; i < 5; i++) {
+            total += marks[i];
+        }
+        System.out.println("Total Marks: " + total);
+    }
+}`
       }
     ],
     questions: [
-      // ── Module A (SQL Injection) — Q1–5 ─────────────────────────────────
+      // ── Module A (Unsafe C Input) — Q0–Q4 ─────────────────────────────────
       {
         id: 0, codeBlockIndex: 0,
-        text: "What vulnerability class is present in the loginUser function?",
-        options: ["Cross-Site Scripting (XSS)", "SQL Injection", "Command Injection", "CSRF"]
+        text: "What makes gets(name) in greetUser() dangerous?",
+        options: [
+          "It converts numbers to strings incorrectly",
+          "It reads input without checking length, allowing the input to overflow the buffer",
+          "It only reads a single character at a time",
+          "It requires administrator permissions to run"
+        ]
       },
       {
         id: 1, codeBlockIndex: 0,
-        text: "Which username input would allow an attacker to log in without knowing any valid password?",
-        options: ["admin@test.com", "' OR '1'='1' --", "<script>alert(1)</script>", "admin; TRUNCATE users; --"]
+        text: "In isAdult(), the condition 'if (age = 18)' is a bug. What does this line actually do at runtime?",
+        options: [
+          "Compares age to 18 — returns true only if they are equal",
+          "Checks if age is greater than or equal to 18",
+          "Assigns 18 to age, making the condition always evaluate to true (18 is non-zero)",
+          "Causes a compilation error because = is not allowed inside if"
+        ]
       },
       {
         id: 2, codeBlockIndex: 0,
-        text: "getUserById is also vulnerable. What value in userId could return all rows from the users table?",
-        options: ["0", "1 OR 1=1", "NULL", "-1"]
+        text: "What is the safer replacement for gets() when reading a string with a known maximum length in C?",
+        options: [
+          "scanf(\"%d\")",
+          "fgets(name, sizeof(name), stdin)",
+          "getchar()",
+          "puts(name)"
+        ]
       },
       {
         id: 3, codeBlockIndex: 0,
-        text: "What is the correct fix for all three functions in Module A?",
+        text: "Why is using strcpy(dest, src) without checking sizes a security risk?",
         options: [
-          "Wrap each query in a try/catch block",
-          "Use parameterised queries (prepared statements)",
-          "Hash the input before appending it to the query",
-          "Limit input to 50 characters"
+          "strcpy() only works with string literals, not variables",
+          "strcpy() automatically adds extra null characters to both strings",
+          "strcpy() copies all bytes from src into dest without checking whether src fits, which can overflow dest",
+          "strcpy() requires both strings to be the same length"
         ]
       },
       {
         id: 4, codeBlockIndex: 0,
-        text: "Which OWASP Top 10 2021 category does SQL Injection fall under?",
-        options: ["A02 – Cryptographic Failures", "A03 – Injection", "A07 – Identification Failures", "A05 – Security Misconfiguration"]
+        text: "The misuse of gets() and unchecked strcpy() in Module A are examples of which type of vulnerability?",
+        options: [
+          "SQL Injection",
+          "Logic Error",
+          "Buffer Overflow",
+          "Infinite Loop"
+        ]
       },
-      // ── Module B (XSS) — Q6–10 ──────────────────────────────────────────
+      // ── Module B (Java Authentication) — Q5–Q9 ────────────────────────────
       {
         id: 5, codeBlockIndex: 1,
-        text: "What vulnerability exists in the renderComment function?",
-        options: ["SQL Injection", "CSRF", "Cross-Site Scripting (XSS)", "Path Traversal"]
+        text: "In Java, using == to compare strings (username == \"admin\") does NOT check string content. What is the correct method?",
+        options: [
+          "username.compare(\"admin\")",
+          "username.equals(\"admin\")",
+          "username === \"admin\"",
+          "username.toString() == \"admin\""
+        ]
       },
       {
         id: 6, codeBlockIndex: 1,
-        text: "Which input for comment.text would execute an alert in the victim's browser?",
+        text: "Storing the password directly in code as ADMIN_PASS = \"admin123\" is a security problem because:",
         options: [
-          "'; DROP TABLE comments; --",
-          "<script>alert('xss')</script>",
-          "../../../etc/passwd",
-          "1 UNION SELECT * FROM users"
+          "Java constants cannot store String values",
+          "Anyone who reads the source code or decompiles the program can immediately see the password",
+          "static final variables are always printed to the console when the program starts",
+          "The string \"admin123\" is too long to be stored as a Java constant"
         ]
       },
       {
         id: 7, codeBlockIndex: 1,
-        text: "Which DOM property should replace innerHTML to safely display plain text?",
-        options: ["innerText", "outerHTML", "textContent", "nodeValue"]
+        text: "The isStrongPassword() method checks only that the password length is greater than 4. What important security check is missing?",
+        options: [
+          "It should check that the password is exactly 8 characters",
+          "There is no check for uppercase letters, digits, or special characters — length alone is insufficient for a strong password policy",
+          "The method should be declared static to function correctly",
+          "pass.length() always returns -1 for empty strings in Java"
+        ]
       },
       {
         id: 8, codeBlockIndex: 1,
-        text: "The buildProfileCard function uses template literals. If user.bio comes from a database populated by users, what type of XSS is this?",
-        options: ["Reflected XSS", "Stored XSS", "DOM-based XSS", "Blind XSS"]
+        text: "The printDetails() method prints the password using System.out.println(). Why is this a bad security practice?",
+        options: [
+          "System.out.println() cannot handle strings that contain spaces",
+          "Passwords printed to the screen or console logs can be read by anyone with access to the terminal or log files",
+          "The method must use a return statement instead of printing",
+          "Java requires printf() instead of println() for secure output"
+        ]
       },
       {
         id: 9, codeBlockIndex: 1,
-        text: "Which HTTP security header helps mitigate XSS by restricting which scripts can execute?",
-        options: ["X-Frame-Options", "Strict-Transport-Security", "Content-Security-Policy", "X-Content-Type-Options"]
+        text: "Because of the == bug, login() always returns false even for correct credentials. This is an example of which category of error?",
+        options: [
+          "A compilation error — the code will not compile at all",
+          "A runtime exception that crashes the JVM",
+          "A logic error — the code compiles and runs but produces the wrong result",
+          "A type mismatch error between String and boolean"
+        ]
       },
-      // ── Module C (Password Storage) — Q11–15 ────────────────────────────
+      // ── Module C (C Array & Arithmetic) — Q10–Q14 ─────────────────────────
       {
         id: 10, codeBlockIndex: 2,
-        text: "What is wrong with using MD5 to hash passwords?",
+        text: "getScore(scores, 10) is called on an array declared as int scores[5] (valid indices: 0–4). What happens?",
         options: [
-          "MD5 produces output that is too long to store in a database",
-          "MD5 is designed for speed, making brute-force attacks trivial",
-          "MD5 requires a private key that must be rotated regularly",
-          "MD5 cannot handle Unicode passwords"
+          "The program automatically returns 0 for out-of-range indices",
+          "It accesses memory outside the array boundaries, causing undefined behaviour",
+          "The C compiler resizes the array to size 11 automatically",
+          "The function safely returns the last valid element (index 4)"
         ]
       },
       {
         id: 11, codeBlockIndex: 2,
-        text: "A pre-computed table that maps hash values back to original passwords is called a:",
-        options: ["Brute-force table", "Rainbow table", "Hash collision", "Salt dictionary"]
+        text: "What happens when divide(10.0, 0.0) is executed in C?",
+        options: [
+          "The function returns 0.0 safely",
+          "It produces undefined behaviour or returns infinity / NaN — dividing by zero is not safe in C",
+          "The compiler detects division by zero at compile time and stops compilation",
+          "It automatically throws a DivisionByZeroException like Java"
+        ]
       },
       {
         id: 12, codeBlockIndex: 2,
-        text: "The resetPassword function uses SHA-1. Why is this also insecure for password storage?",
+        text: "What is the correct fix to prevent out-of-bounds access in getScore()?",
         options: [
-          "SHA-1 output is too short at 20 bytes",
-          "SHA-1 is also a fast, unsalted hash — unsuitable for passwords",
-          "SHA-1 requires a secret key and will throw an error without one",
-          "SHA-1 is deprecated and no longer available in Node.js"
+          "Change the return type of getScore() from int to float",
+          "Declare the scores array as a global variable",
+          "Before accessing, check: if (index < 0 || index >= size) handle the error appropriately",
+          "Always pass index as 0 to avoid boundary issues"
         ]
       },
       {
         id: 13, codeBlockIndex: 2,
-        text: "Which algorithm is recommended for password hashing in 2024?",
-        options: ["SHA-256", "AES-256", "bcrypt / scrypt / Argon2", "PBKDF2 with 100 iterations"]
+        text: "Unlike Java, C does NOT automatically check for out-of-bounds array access. What does this mean for the programmer?",
+        options: [
+          "C handles array bounds checking automatically at runtime like Java does",
+          "The programmer must always manually validate array indices before accessing — C does not protect against it",
+          "C arrays automatically expand when the index exceeds the declared size",
+          "Out-of-bounds access in C always produces a clear 'Array Error' message and halts the program"
+        ]
       },
       {
         id: 14, codeBlockIndex: 2,
-        text: "Even with bcrypt, what additional measure prevents two users with the same password from having the same hash?",
-        options: ["A per-user random salt (automatically added by bcrypt)", "A global application secret key", "Encoding the hash in Base64", "Increasing the hash output length"]
+        text: "Which programming habit would prevent BOTH the divide-by-zero and array out-of-bounds bugs in Module C?",
+        options: [
+          "Using global variables instead of function parameters",
+          "Always using float instead of int for all numeric variables",
+          "Validating all input values before using them in calculations or array access",
+          "Writing all logic in a single main() function instead of separate functions"
+        ]
       },
-      // ── Module D (Path Traversal + IDOR) — Q16–20 ───────────────────────
+      // ── Module D (Java Array & Data) — Q15–Q19 ────────────────────────────
       {
         id: 15, codeBlockIndex: 3,
-        text: "What vulnerability exists in the /download endpoint?",
-        options: ["SQL Injection", "CSRF", "Path Traversal (Directory Traversal)", "Insecure Deserialization"]
+        text: "The loop runs while i <= 5 on an array of size 5 (valid indices: 0–4). What happens when i reaches 5?",
+        options: [
+          "The loop exits normally because 5 is not a valid index",
+          "An ArrayIndexOutOfBoundsException is thrown at runtime",
+          "Java automatically increases the array size to 6 to accommodate the access",
+          "marks[5] returns 0 by default without throwing any error"
+        ]
       },
       {
         id: 16, codeBlockIndex: 3,
-        text: "Which value for the ?file= parameter could expose the server's /etc/passwd file?",
+        text: "What is the correct loop condition to safely iterate over all 5 elements of int[] marks = new int[5]?",
         options: [
-          "etc/passwd",
-          "../../../../etc/passwd",
-          "/root/passwd",
-          "C:\\Windows\\System32\\drivers\\etc\\passwd"
+          "i <= 5",
+          "i < 5",
+          "i != 5",
+          "i <= 4 && i > 0"
         ]
       },
       {
         id: 17, codeBlockIndex: 3,
-        text: "What is the most effective fix for the path traversal vulnerability in /download?",
+        text: "The password \"college@123\" is stored as a plain-text String and printed to the console. What is the correct approach?",
         options: [
-          "Limit file size to 10 MB",
-          "Only allow GET requests to this endpoint",
-          "Validate that the resolved path starts with the expected uploads directory",
-          "Require the user to be logged in"
+          "Store it as an int instead of a String",
+          "Encode it in Base64 before printing to make it slightly harder to read",
+          "Never hardcode credentials in source code, and never print passwords to any output",
+          "Use a shorter password to reduce the security risk of exposure"
         ]
       },
       {
         id: 18, codeBlockIndex: 3,
-        text: "The /api/invoice/:id endpoint has a vulnerability. What is it?",
+        text: "In Java, what exception is thrown when you access an array with an index that is out of its declared bounds?",
         options: [
-          "The endpoint uses GET instead of POST",
-          "The ID is not validated as a number",
-          "There is no authorisation check — any authenticated user can access any invoice",
-          "The response is not encrypted"
+          "NullPointerException",
+          "ArithmeticException",
+          "ArrayIndexOutOfBoundsException",
+          "NumberFormatException"
         ]
       },
       {
         id: 19, codeBlockIndex: 3,
-        text: "The vulnerability in /api/invoice/:id is an example of which OWASP Top 10 2021 category?",
+        text: "Considering all four modules, which single coding habit would prevent the most bugs and security issues found?",
         options: [
-          "A01 – Broken Access Control",
-          "A02 – Cryptographic Failures",
-          "A04 – Insecure Design",
-          "A09 – Security Logging and Monitoring Failures"
+          "Always write programs in C instead of Java for better performance",
+          "Avoid using functions — put all code inside main() to keep it simple",
+          "Validate all inputs and indices, use correct comparison operators, and never hardcode sensitive data",
+          "Use only global variables throughout the program to share data between functions"
         ]
       }
     ]
   },
   answers: {
-    questionAnswers: [1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 0, 2, 1, 2, 2, 0]
+    //         Q0  Q1  Q2  Q3  Q4  Q5  Q6  Q7  Q8  Q9  Q10 Q11 Q12 Q13 Q14 Q15 Q16 Q17 Q18 Q19
+    questionAnswers: [1,  2,  1,  2,  2,  1,  1,  1,  1,  2,  1,  1,  2,  1,  2,  1,  1,  2,  2,  2]
   },
-  flag: "FLAG{c0d3_4ud1t_p4ss3d_s3cur1ty_4ud1t}"
+  flag: "FLAG{c0d3_cl1n1c_c_4nd_j4v4_bugs_found}"
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -614,7 +677,7 @@ const ghostLogs = {
   title: "Ghost in the Logs",
   slug: "ghost-in-the-logs",
   description:
-    "The SOC team has flagged unusual activity across three server logs from the past hour. Analyse each log section and answer the 20 investigation questions.",
+    "The security team has flagged unusual activity across three server logs from the past hour. Analyse each log section carefully and answer the 20 investigation questions.",
   category: "log-analysis",
   type: "log-analysis",
   difficulty: "basic",
@@ -622,9 +685,9 @@ const ghostLogs = {
   timeLimit: 720,
   hints: [
     { text: "Repeated 401 responses from one IP in a short timespan = brute force. Look at frequency and timing.", cost: 20 },
-    { text: "Port scanning shows up as rapid GET requests to many different endpoints from one IP, often returning 404.", cost: 20 },
+    { text: "Automated scanning shows up as rapid GET requests to many different endpoints from one IP, often returning 404.", cost: 20 },
     { text: "Data exfiltration often appears as unusually large response sizes (bytes column) on export or download endpoints.", cost: 15 },
-    { text: "Privilege escalation: watch for a non-admin account suddenly accessing /api/admin or /api/users/all.", cost: 15 }
+    { text: "Privilege escalation: watch for an account suddenly accessing admin-only endpoints after a successful login.", cost: 15 }
   ],
   content: {
     description: "Three log excerpts are shown below. Each covers a different incident window. Read all logs carefully, then answer the questions.",
@@ -668,343 +731,346 @@ const ghostLogs = {
       "10:10:00  192.168.1.22   GET  /api/orders                200  2.1KB  0.14s"
     ],
     questions: [
-      // ── Section A (Brute Force) — Q1–7 ──────────────────────────────────
+      // ── Section A (Brute Force) — Q0–Q6 ─────────────────────────────────
       {
         id: 0,
-        text: "In Log Section A, which IP address is performing the brute-force attack?",
+        text: "In Log Section A, which IP address is performing the suspicious login activity?",
         options: ["192.168.1.10", "10.0.0.55", "203.0.113.42", "192.168.1.22"]
       },
       {
         id: 1,
-        text: "How many failed login attempts did the attacker make before succeeding?",
+        text: "How many failed login attempts (401 responses) did the suspicious IP make before getting a successful login?",
         options: ["5", "6", "8", "10"]
       },
       {
         id: 2,
-        text: "Approximately how long did it take the attacker to complete all login attempts (success included)?",
+        text: "Approximately how long did all the login attempts (including the final success) take in total?",
         options: ["Less than 5 seconds", "About 8 seconds", "About 30 seconds", "About 2 minutes"]
       },
       {
         id: 3,
-        text: "Was the brute-force attack ultimately successful?",
+        text: "Was the login attack ultimately successful?",
         options: [
-          "No — every attempt returned 401",
-          "Yes — a 200 was returned after repeated attempts",
+          "No — every attempt returned 401 Unauthorized",
+          "Yes — a 200 OK response was returned after repeated failed attempts",
           "Partially — the account was locked after 5 attempts",
-          "Unknown — logs are truncated"
+          "Unknown — the logs are incomplete"
         ]
       },
       {
         id: 4,
-        text: "After gaining access, what did the attacker do at 08:02:44?",
+        text: "After gaining access, what did IP 10.0.0.55 do at 08:02:44?",
         options: [
-          "Exported the database as CSV",
-          "Scanned for open admin endpoints",
-          "Promoted their own account to admin",
-          "Deleted all user records"
+          "Exported the entire database as a CSV file",
+          "Scanned the server for open admin endpoints",
+          "Promoted their own account (attacker@evil.io) to admin role",
+          "Deleted all user records from the database"
         ]
       },
       {
         id: 5,
-        text: "What security control would have most directly prevented this brute-force attack?",
+        text: "Which security control would have most directly prevented this brute-force login attack?",
         options: [
-          "HTTPS on the login endpoint",
-          "Rate limiting or account lockout after N failed attempts",
-          "Requiring passwords to be at least 12 characters",
+          "Using HTTPS on the login endpoint",
+          "Rate limiting or account lockout after a certain number of failed login attempts",
+          "Requiring passwords to be at least 12 characters long",
           "Using JWT tokens instead of session cookies"
         ]
       },
       {
         id: 6,
-        text: "The /api/users/promote endpoint was used by the attacker. What access control flaw does this reveal?",
+        text: "The attacker used /api/users/promote to give themselves admin access. What does this reveal about the application?",
         options: [
-          "The endpoint was not rate-limited",
-          "The endpoint should require HTTPS",
-          "Any authenticated admin could promote any user with no additional approval",
-          "The endpoint returned verbose error messages"
+          "The promote endpoint was not rate-limited",
+          "The endpoint should require HTTPS to be secure",
+          "Any admin account could promote any user without additional confirmation or approval",
+          "The endpoint returned too much information in error messages"
         ]
       },
-      // ── Section B (Reconnaissance / Scanning) — Q8–13 ───────────────────
+      // ── Section B (Reconnaissance / Scanning) — Q7–Q12 ──────────────────
       {
         id: 7,
         text: "In Log Section B, what type of activity is IP 45.33.32.156 performing?",
         options: [
-          "Brute-force login attack",
-          "Automated reconnaissance / vulnerability scanning",
-          "Data exfiltration via exports",
-          "Distributed Denial of Service (DDoS)"
+          "Brute-force login attack on the admin panel",
+          "Automated reconnaissance — scanning for common sensitive files and admin paths",
+          "Gradually downloading large amounts of data",
+          "Sending many requests to crash the server (DDoS)"
         ]
       },
       {
         id: 8,
-        text: "How long did the scanning activity from 45.33.32.156 take?",
+        text: "How long did the entire scanning activity from 45.33.32.156 take?",
         options: ["About 1 second", "About 5 seconds", "About 30 seconds", "About 5 minutes"]
       },
       {
         id: 9,
-        text: "Which sensitive file was successfully accessed by the scanner?",
+        text: "Which sensitive file was successfully accessed by the scanner (returned 200 OK)?",
         options: ["/.env", "/backup.zip", "/.git/config", "/config.php"]
       },
       {
         id: 10,
         text: "What information could an attacker extract from an exposed /.git/config file?",
         options: [
-          "The server's TLS private key",
-          "Remote repository URL, branch names, and potentially embedded credentials",
-          "The database connection string only",
-          "A list of all registered users"
+          "The server's TLS private key used for HTTPS",
+          "Remote repository URL, branch names, and potentially hardcoded credentials in git history",
+          "Only the database connection string",
+          "A full list of all registered users and their passwords"
         ]
       },
       {
         id: 11,
-        text: "What is the most effective remediation for the exposed /.git/config?",
+        text: "What is the best remediation for the exposed /.git/config file on the web server?",
         options: [
-          "Rename the file to .git-config",
-          "Block requests to /.git/ at the web server / CDN level and never deploy .git directories to production",
-          "Require authentication to access the file",
-          "Encrypt the file contents"
+          "Rename the file to .git-backup so it is harder to find",
+          "Block all requests to /.git/ at the web server level and never deploy .git directories to production servers",
+          "Require user authentication before the file can be accessed",
+          "Encrypt the contents of the .git/config file"
         ]
       },
       {
         id: 12,
-        text: "What log pattern is the strongest indicator that 45.33.32.156 is an automated scanner rather than a human?",
+        text: "What log pattern most clearly indicates that 45.33.32.156 is an automated scanner rather than a human browsing the site?",
         options: [
-          "It used a GET method",
-          "Multiple different paths hit within 1–2 seconds, all returning 404",
+          "It used the GET HTTP method for all requests",
+          "Many different file paths were requested within 1–2 seconds, and most returned 404",
           "It received a 200 response on /.git/config",
-          "The IP is from an external network"
+          "The IP address belongs to an external network"
         ]
       },
-      // ── Section C (Data Exfiltration) — Q14–20 ──────────────────────────
+      // ── Section C (Data Exfiltration) — Q13–Q19 ──────────────────────────
       {
         id: 13,
         text: "In Log Section C, which indicator most strongly suggests a data exfiltration attempt?",
         options: [
-          "The user is accessing /api/reports which is an admin-only endpoint",
-          "Six successive POST /api/data/export calls with rapidly increasing response sizes over 5 minutes",
-          "The response time exceeds 1 second",
-          "The IP 192.168.1.50 is on an internal subnet"
+          "The user accessed /api/reports which is an admin-only path",
+          "Six successive POST /api/data/export calls with rapidly growing response sizes over 5 minutes",
+          "The response time of some requests exceeded 1 second",
+          "IP 192.168.1.50 is on an internal subnet"
         ]
       },
       {
         id: 14,
-        text: "Approximately how much data was exported in total across all six export calls?",
+        text: "Approximately how much total data was exported across all six export calls combined?",
         options: ["Under 500 KB", "About 1 MB", "About 3.5 MB", "Over 10 MB"]
       },
       {
         id: 15,
-        text: "The export response sizes grow with each request (142KB → 1.2MB). What does this pattern suggest?",
+        text: "The export response sizes grow with each request (142 KB → 1.2 MB). What does this escalating pattern suggest?",
         options: [
-          "The server is under increasing load",
-          "The attacker is progressively downloading larger dataset slices",
-          "CSV files are always larger than JSON equivalents",
-          "The database is running a slow query"
+          "The server is becoming slower under increasing load",
+          "The attacker is progressively downloading larger slices of the dataset",
+          "CSV files are always larger than JSON, so each export takes more space",
+          "The database is running an increasingly expensive background query"
         ]
       },
       {
         id: 16,
-        text: "Which security control would have limited the impact of this exfiltration?",
+        text: "Which security control would have most limited the impact of this data exfiltration?",
         options: [
-          "Switching from HTTP to HTTPS",
-          "Requiring re-authentication for every export request",
-          "Rate-limiting and size-capping export endpoints, and alerting on anomalous download volume",
-          "Disabling the CSV export feature entirely"
+          "Switching the server from HTTP to HTTPS",
+          "Requiring the user to re-authenticate for every individual export request",
+          "Rate-limiting export endpoints and alerting on unusually large or frequent download volumes",
+          "Completely disabling the CSV export feature for all users"
         ]
       },
       {
         id: 17,
-        text: "Across all three log sections, which IP appears in Section B AND made a normal POST in Section C?",
+        text: "Across all three log sections, which IP address appears in Section B AND also makes a legitimate POST request in Section C?",
         options: ["45.33.32.156", "192.168.1.50", "192.168.1.22", "10.0.0.55"]
       },
       {
         id: 18,
-        text: "Which of the three log sections shows the highest-severity incident?",
+        text: "Which of the three log sections shows the highest-severity security incident overall?",
         options: [
-          "Section A — brute-force followed by privilege escalation",
-          "Section B — reconnaissance and exposed .git config",
-          "Section C — data exfiltration",
-          "All three are equally severe"
+          "Section A — brute-force attack followed by privilege escalation to admin",
+          "Section B — automated reconnaissance and one exposed sensitive file",
+          "Section C — repeated data export suggesting exfiltration",
+          "All three are equally severe and cannot be ranked"
         ]
       },
       {
         id: 19,
-        text: "If you could implement only one security improvement to address incidents across all three sections, which would have the broadest impact?",
+        text: "Under Indian law (IT Act 2000), which action visible in the logs would be considered unauthorised access to a computer system?",
         options: [
-          "Enforce HTTPS site-wide",
-          "Implement anomaly-based alerting on authentication failures, rapid endpoint scanning, and abnormal data volumes",
-          "Add a CAPTCHA to the login page",
-          "Move the application behind a VPN"
+          "A legitimate user downloading their own reports in Section C",
+          "IP 10.0.0.55 repeatedly attempting to log in with wrong passwords and then gaining access to an admin account",
+          "The automated scanner requesting /robots.txt in Section B",
+          "The normal POST /api/orders request by 192.168.1.22"
         ]
       }
     ]
   },
   answers: {
-    questionAnswers: [1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2, 0, 1]
+    //         Q0  Q1  Q2  Q3  Q4  Q5  Q6  Q7  Q8  Q9  Q10 Q11 Q12 Q13 Q14 Q15 Q16 Q17 Q18 Q19
+    questionAnswers: [1,  2,  1,  1,  2,  1,  2,  1,  1,  2,  1,  1,  1,  1,  2,  1,  2,  2,  0,  1]
   },
   flag: "FLAG{l0g_4n4lys15_3xp3rt_gh0st_caught}"
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SCENARIO 5 — QA Bug Hunt (20 observations — e-commerce checkout)
-// Bugs at indices: 0,2,3,5,7,9,11,12,14,16  (10 bugs, 10 expected)
+// SCENARIO 5 — QA Bug Hunt: Student Portal (20 observations)
+// Bugs at indices: 0,2,3,5,7,9,11,12,14,17  (10 bugs, 10 expected)
+// Designed around a university student registration system — relatable to FY students
 // ─────────────────────────────────────────────────────────────────────────────
 const bugBounty = {
-  title: "Bug Bounty: Checkout Flow",
+  title: "Bug Bounty: Student Portal",
   slug: "bug-bounty-login",
   description:
-    "You are testing a newly built e-commerce checkout page. Review the 10 requirements and classify each of the 20 test observations as a real Bug or Expected Behaviour.",
+    "You are testing the new Atharva University Student Registration Portal. Review the 10 requirements and classify each of the 20 test observations as a real Bug or Expected Behaviour.",
   category: "qa-bugs",
   type: "qa-bugs",
   difficulty: "basic",
   points: 200,
   timeLimit: 600,
   hints: [
-    { text: "Read each requirement precisely — bugs are deviations from the spec, not just things that look wrong.", cost: 15 },
-    { text: "Security-related defects (e.g. exposing card numbers, no validation) count as bugs even if the UX 'works'.", cost: 15 },
-    { text: "Accessibility and keyboard navigation are explicit requirements — failures are real bugs.", cost: 10 }
+    { text: "Read each requirement precisely — a bug is a deviation from the spec, not just something that looks odd.", cost: 15 },
+    { text: "Security-related failures (password shown in confirmation, no lockout after failed attempts) are always bugs.", cost: 15 },
+    { text: "Input validation bugs include accepting data that the requirement says must be rejected (e.g., letters in Roll No).", cost: 10 }
   ],
   content: {
     description:
-      "You are performing QA on the checkout page of InsideBreach Shop. Review all requirements, then classify each test observation as Bug or Expected Behaviour.",
+      "You are performing QA testing on the Atharva University Student Registration Portal. Review all requirements, then classify each test observation as Bug or Expected Behaviour.",
     requirements: [
-      "REQ-01: All form fields (Name, Email, Address, Card Number, Expiry, CVV) are required — empty submission must be blocked with field-level validation messages.",
-      "REQ-02: Card number field must accept only 16-digit numeric input and display it in groups of four (e.g. 1234 5678 9012 3456).",
-      "REQ-03: CVV field must be masked (shown as dots). The raw CVV must never appear in logs, network requests, or error messages.",
-      "REQ-04: Expiry date must reject past dates with the message 'Card has expired'.",
-      "REQ-05: Email field must validate format — invalid formats should show 'Please enter a valid email address'.",
-      "REQ-06: On successful order, the user must see a confirmation page with order ID — the full card number must NOT appear on this page.",
-      "REQ-07: The Place Order button must be disabled while any required field is empty.",
-      "REQ-08: The form must be fully keyboard-accessible (Tab key navigates all fields and buttons in logical order).",
-      "REQ-09: After 3 failed payment attempts the session must lock for 5 minutes with a clear message.",
-      "REQ-10: All form submissions must use HTTPS. The browser address bar must not show HTTP at any point during checkout."
+      "REQ-01: All six fields (Full Name, Roll No, Email, Password, Branch, Year) are required. Submitting with any empty field must be blocked with a field-level validation message.",
+      "REQ-02: Roll Number must be exactly 10 digits and contain only numeric characters. Non-numeric or incorrect-length entries must be rejected with 'Roll number must be 10 digits (numbers only)'.",
+      "REQ-03: Password must be at least 8 characters long. Shorter passwords must be rejected with 'Password must be at least 8 characters'.",
+      "REQ-04: Email field must validate format — it must contain '@' and a domain extension (e.g. .com, .edu, .in). Invalid emails show 'Please enter a valid email address'.",
+      "REQ-05: Full Name must accept only letters and spaces. Entries containing digits or special symbols must be rejected with 'Name must contain only letters and spaces'.",
+      "REQ-06: The Register button must be disabled (greyed out) while any required field is empty.",
+      "REQ-07: Duplicate Roll Numbers must be rejected with the message 'Roll number already registered. Please contact the admin.'",
+      "REQ-08: On successful registration, the confirmation page must show 'Welcome, [Name]! Your Roll No is [RollNo].' The password must NOT appear anywhere on this page.",
+      "REQ-09: The Branch dropdown must force a valid selection. Submitting while 'Select Branch' placeholder is active must be blocked with a validation error.",
+      "REQ-10: After 3 consecutive failed login attempts with wrong passwords, the account must lock for 2 minutes and display 'Too many attempts. Try again in 2 minutes.'"
     ],
     bugReports: [
-      // 0 — BUG
+      // 0 — BUG (REQ-01: empty Password submits)
       {
         id: 0,
-        observation: "Submitting the form with an empty CVV field shows no validation message — the form submits and returns a generic server error (500).",
+        observation: "Submitting the registration form with the Password field left empty shows no validation message — the form submits and the server returns a 500 Internal Server Error.",
         requirement: "REQ-01"
       },
-      // 1 — EXPECTED
+      // 1 — EXPECTED (REQ-02: alphanumeric roll no rejected)
       {
         id: 1,
-        observation: "Entering a 17-digit card number is rejected with the message 'Card number must be 16 digits'.",
+        observation: "Entering 'ABCD123456' (letters + digits) in the Roll Number field shows 'Roll number must be 10 digits (numbers only)' and blocks submission.",
         requirement: "REQ-02"
       },
-      // 2 — BUG
+      // 2 — BUG (REQ-03: short password accepted)
       {
         id: 2,
-        observation: "The CVV value (e.g. '123') is visible in plain text in the browser's Network tab under the request payload when Place Order is clicked.",
+        observation: "Entering a 5-character password 'abc12' is accepted without any validation error and registration proceeds.",
         requirement: "REQ-03"
       },
-      // 3 — BUG
+      // 3 — BUG (REQ-04: incomplete email accepted)
       {
         id: 3,
-        observation: "Entering expiry date '01/2020' (a past date) is accepted without error and the order proceeds to payment.",
+        observation: "Entering 'student@' in the Email field (missing the domain part) passes email validation and submission is not blocked.",
         requirement: "REQ-04"
       },
-      // 4 — EXPECTED
+      // 4 — EXPECTED (REQ-04: valid university email accepted)
       {
         id: 4,
-        observation: "Entering 'user@company.co.uk' passes email validation and the form proceeds.",
-        requirement: "REQ-05"
-      },
-      // 5 — BUG
-      {
-        id: 5,
-        observation: "The order confirmation page displays the full card number (e.g. '4111 1111 1111 1111') next to the order summary.",
-        requirement: "REQ-06"
-      },
-      // 6 — EXPECTED
-      {
-        id: 6,
-        observation: "The Place Order button is greyed out and unclickable when the Name field is empty.",
-        requirement: "REQ-07"
-      },
-      // 7 — BUG
-      {
-        id: 7,
-        observation: "Pressing Tab from the Card Number field skips directly to the Place Order button, bypassing Expiry and CVV fields.",
-        requirement: "REQ-08"
-      },
-      // 8 — EXPECTED
-      {
-        id: 8,
-        observation: "After 3 failed payment attempts, the session locks for 5 minutes and displays 'Too many failed attempts. Please try again in 5 minutes.'",
-        requirement: "REQ-09"
-      },
-      // 9 — BUG
-      {
-        id: 9,
-        observation: "The checkout page loads over HTTP (http://insidebreach-shop.io/checkout) without redirecting to HTTPS.",
-        requirement: "REQ-10"
-      },
-      // 10 — EXPECTED
-      {
-        id: 10,
-        observation: "Entering 'notanemail' in the email field shows 'Please enter a valid email address' and blocks submission.",
-        requirement: "REQ-05"
-      },
-      // 11 — BUG
-      {
-        id: 11,
-        observation: "The card number field accepts letters — typing 'ABCD EFGH IJKL MNOP' passes client-side validation.",
-        requirement: "REQ-02"
-      },
-      // 12 — BUG
-      {
-        id: 12,
-        observation: "The CVV field displays the entered digits in plain text instead of masking them as dots.",
-        requirement: "REQ-03"
-      },
-      // 13 — EXPECTED
-      {
-        id: 13,
-        observation: "The order confirmation page shows only the last four digits of the card (e.g. '•••• •••• •••• 1234').",
-        requirement: "REQ-06"
-      },
-      // 14 — BUG
-      {
-        id: 14,
-        observation: "Submitting the form with all fields valid but using a screen reader results in no accessible success or error announcements — the page changes silently.",
-        requirement: "REQ-08"
-      },
-      // 15 — EXPECTED
-      {
-        id: 15,
-        observation: "Entering a correctly formatted future expiry date (e.g. '12/2027') passes validation.",
+        observation: "Entering 'rahul.sharma@atharva.edu.in' passes email validation and the form proceeds normally.",
         requirement: "REQ-04"
       },
-      // 16 — BUG
+      // 5 — BUG (REQ-06: Register button active when fields are empty)
       {
-        id: 16,
-        observation: "After the 5-minute lockout period ends, the failed attempt counter resets to 0 instead of requiring the user to re-enter their details — a new set of 3 attempts begins immediately.",
-        requirement: "REQ-09"
+        id: 5,
+        observation: "On the registration page with all fields empty, the Register button is fully clickable and active — it is not disabled.",
+        requirement: "REQ-06"
       },
-      // 17 — EXPECTED
+      // 6 — EXPECTED (REQ-07: duplicate roll number rejected)
       {
-        id: 17,
-        observation: "The Place Order button becomes enabled only after all six required fields contain non-empty values.",
+        id: 6,
+        observation: "Attempting to register with a Roll Number that already exists in the system shows 'Roll number already registered. Please contact the admin.' and blocks the submission.",
         requirement: "REQ-07"
       },
-      // 18 — EXPECTED
+      // 7 — BUG (REQ-08: password visible on confirmation page)
       {
-        id: 18,
-        observation: "Navigating through all form fields using the Tab key focuses them in the order: Name → Email → Address → Card Number → Expiry → CVV → Place Order.",
+        id: 7,
+        observation: "The confirmation page after successful registration displays 'Your password is: mypassword1' alongside the welcome message.",
         requirement: "REQ-08"
       },
-      // 19 — BUG — (edge case: entering card number as spaces)
+      // 8 — EXPECTED (REQ-09: placeholder branch blocks submission)
+      {
+        id: 8,
+        observation: "Clicking Register while 'Select Branch' is still showing in the Branch dropdown produces a validation error and blocks the form from submitting.",
+        requirement: "REQ-09"
+      },
+      // 9 — BUG (REQ-10: no lockout after 3 wrong attempts)
+      {
+        id: 9,
+        observation: "After 3 consecutive failed login attempts with incorrect passwords, no lockout occurs — the user can continue trying passwords indefinitely.",
+        requirement: "REQ-10"
+      },
+      // 10 — EXPECTED (REQ-05: valid name accepted)
+      {
+        id: 10,
+        observation: "Entering 'Priya Sharma' in the Full Name field (letters and a space) passes name validation and the form proceeds.",
+        requirement: "REQ-05"
+      },
+      // 11 — BUG (REQ-05: name with digits accepted)
+      {
+        id: 11,
+        observation: "Entering 'R4hul Sh4rm4' in the Full Name field (contains digits) passes name validation without any error.",
+        requirement: "REQ-05"
+      },
+      // 12 — BUG (REQ-02: short roll number accepted)
+      {
+        id: 12,
+        observation: "Entering '12345' (only 5 digits) in the Roll Number field passes validation and the form submits successfully.",
+        requirement: "REQ-02"
+      },
+      // 13 — EXPECTED (REQ-10: lockout message shown correctly)
+      {
+        id: 13,
+        observation: "After 3 wrong login attempts, the message 'Too many attempts. Try again in 2 minutes.' is displayed and further login attempts are blocked for 2 minutes.",
+        requirement: "REQ-10"
+      },
+      // 14 — BUG (REQ-08: password leaked on confirmation page)
+      {
+        id: 14,
+        observation: "The registration confirmation page shows 'Email: student@test.com | Password: pass1234' under the student's details section.",
+        requirement: "REQ-08"
+      },
+      // 15 — EXPECTED (REQ-02: valid 10-digit roll number accepted)
+      {
+        id: 15,
+        observation: "Entering '2024501001' (exactly 10 numeric digits) in the Roll Number field passes validation successfully.",
+        requirement: "REQ-02"
+      },
+      // 16 — EXPECTED (REQ-06: button disabled when email is empty)
+      {
+        id: 16,
+        observation: "When the Email field is cleared while all other fields are filled, the Register button becomes greyed out and unclickable immediately.",
+        requirement: "REQ-06"
+      },
+      // 17 — BUG (REQ-05: name with symbols accepted)
+      {
+        id: 17,
+        observation: "Entering 'Riya@Singh!' in the Full Name field (contains @ and !) passes name validation without showing any error.",
+        requirement: "REQ-05"
+      },
+      // 18 — EXPECTED (REQ-04: invalid email format rejected)
+      {
+        id: 18,
+        observation: "Entering 'notanemail' in the Email field shows 'Please enter a valid email address' and blocks form submission.",
+        requirement: "REQ-04"
+      },
+      // 19 — EXPECTED (REQ-03: 8-character password accepted)
       {
         id: 19,
-        observation: "Entering 16 space characters in the Card Number field passes validation and the form submits, returning a server error.",
-        requirement: "REQ-01"
+        observation: "Entering a password of exactly 8 characters 'secure01' passes the password length validation without any error.",
+        requirement: "REQ-03"
       }
     ]
   },
   answers: {
-    bugMap: [true, false, true, true, false, true, false, true, false, true, false, true, true, false, true, false, true, false, false, true]
+    //    0     1      2     3     4      5     6      7     8      9     10     11    12    13     14    15     16     17    18     19
+    bugMap: [true, false, true, true, false, true, false, true, false, true, false, true, true, false, true, false, false, true, false, false]
   },
-  flag: "FLAG{qu4l1ty_4ss3ss0r_chckout_fl0w_d0n3}"
+  flag: "FLAG{qu4l1ty_4ss3ss0r_stud3nt_p0rt4l_d0n3}"
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

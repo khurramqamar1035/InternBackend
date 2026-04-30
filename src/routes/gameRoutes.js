@@ -5,8 +5,7 @@ import {
   getScenarios,
   getScenarioBySlug,
   submitChallenge,
-  useHint,
-  getLeaderboard
+  useHint
 } from "../controllers/gameController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import { validate } from "../middlewares/validateMiddleware.js";
@@ -53,6 +52,5 @@ router.get("/scenarios",        protect, getScenarios);
 router.get("/scenarios/:slug",  protect, getScenarioBySlug);
 router.post("/submit",          protect, submitLimiter, validate(submitSchema), submitChallenge);
 router.post("/hint",            protect, hintLimiter,   validate(hintSchema),   useHint);
-router.get("/leaderboard",      protect, getLeaderboard);
 
 export default router;

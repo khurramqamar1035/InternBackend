@@ -42,11 +42,9 @@ function buildAnswerDetails(type, userAnswers, correctAnswers) {
   return details;
 }
 
-function computePoints(basePoints, timeSpent, timeLimit, hintsUsed, hints) {
-  const timeFraction = Math.max(0, 1 - timeSpent / timeLimit);
-  const timeBonus = Math.floor(basePoints * 0.5 * timeFraction);
-  const hintCost = hintsUsed.reduce((sum, idx) => sum + (hints[idx]?.cost ?? 0), 0);
-  return { total: Math.max(10, basePoints + timeBonus - hintCost), timeBonus };
+// Scoring is purely answer-based — a passed test earns exactly the scenario's flat point value.
+function computePoints(basePoints) {
+  return { total: basePoints, timeBonus: 0 };
 }
 
 // ─── routes ───────────────────────────────────────────────────────────────────
@@ -125,7 +123,7 @@ export const submitChallenge = asyncHandler(async (req, res) => {
     .filter((i) => i >= 0 && i < scenario.hints.length)
     .map((i) => ({ hintIndex: i, cost: scenario.hints[i].cost }));
 
-  const { total, timeBonus } = computePoints(scenario.points, timeSpent, scenario.timeLimit, hintsUsed, scenario.hints);
+  const { total, timeBonus } = computePoints(scenario.points);
 
   await Progress.findOneAndUpdate(
     { user: userId, scenario: scenarioId },
@@ -142,8 +140,8 @@ export const submitChallenge = asyncHandler(async (req, res) => {
   session.flagsCaptured = allProgress.length;
   await session.save();
 
-  logger.security("Flag captured", { userId, scenarioId, scenario: scenario.slug, points: total });
-  res.json({ correct: true, flag: scenario.flag, pointsEarned: total, timeBonus });
+  logger.security("Test passed", { userId, scenarioId, scenario: scenario.slug, points: total });
+  res.json({ correct: true, pointsEarned: total, timeBonus });
 });
 
 export const useHint = asyncHandler(async (req, res) => {
@@ -155,15 +153,4 @@ export const useHint = asyncHandler(async (req, res) => {
   res.json({ hint: { text: hint.text, cost: hint.cost }, hintIndex });
 });
 
-export const getLeaderboard = asyncHandler(async (req, res) => {
-  const rows = await Progress.aggregate([
-    { $match: { flagCaptured: true } },
-    { $group: { _id: "$user", flagsCaptured: { $sum: 1 }, totalPoints: { $sum: "$pointsEarned" } } },
-    { $sort: { flagsCaptured: -1, totalPoints: -1 } },
-    { $limit: 100 },
-    { $lookup: { from: "users", localField: "_id", foreignField: "_id", as: "u" } },
-    { $unwind: "$u" },
-    { $project: { _id: 0, userId: "$_id", name: "$u.name", flagsCaptured: 1 } }
-  ]);
-  res.json({ leaderboard: rows.map((r, i) => ({ rank: i + 1, ...r })) });
-});
+// Public leaderboard removed — scores are admin-only.
