@@ -8,6 +8,7 @@ import { logger } from "../utils/logger.js";
 
 function checkAnswers(type, userAnswers, correctAnswers) {
   if (!Array.isArray(userAnswers)) return false;
+  if (!correctAnswers) return false; // guard: scenario.answers missing from DB
   if (type === "phishing") {
     const map = correctAnswers.phishingMap;
     if (!map || userAnswers.length !== map.length) return false;
@@ -28,15 +29,16 @@ function checkAnswers(type, userAnswers, correctAnswers) {
 
 function buildAnswerDetails(type, userAnswers, correctAnswers) {
   const details = [];
+  if (!correctAnswers) return details; // guard: missing answers data
   if (type === "phishing" || type === "qa-bugs") {
-    const map = type === "phishing" ? correctAnswers.phishingMap : correctAnswers.bugMap;
+    const map = type === "phishing" ? (correctAnswers.phishingMap ?? []) : (correctAnswers.bugMap ?? []);
     userAnswers.forEach((a, i) => {
       details.push({ questionIndex: i, userAnswer: Boolean(a), correctAnswer: Boolean(map[i]), isCorrect: Boolean(a) === Boolean(map[i]) });
     });
   } else {
-    const map = correctAnswers.questionAnswers;
+    const map = correctAnswers.questionAnswers ?? [];
     userAnswers.forEach((a, i) => {
-      details.push({ questionIndex: i, userAnswer: Number(a), correctAnswer: Number(map[i]), isCorrect: Number(a) === Number(map[i]) });
+      details.push({ questionIndex: i, userAnswer: Number(a), correctAnswer: Number(map[i] ?? -1), isCorrect: Number(a) === Number(map[i] ?? -1) });
     });
   }
   return details;
@@ -98,6 +100,10 @@ export const submitChallenge = asyncHandler(async (req, res) => {
   // ── Scenario lookup ───────────────────────────────────────────────────────
   const scenario = await Scenario.findById(scenarioId).select("+answers +flag");
   if (!scenario) return res.status(404).json({ message: "Scenario not found" });
+  if (!scenario.answers) {
+    logger.error("Scenario missing answers data — has the DB been seeded?", { scenarioId, slug: scenario.slug });
+    return res.status(500).json({ message: "Scenario configuration error. Please contact the administrator." });
+  }
 
   // ── Guard: already submitted this scenario ────────────────────────────────
   const existing = await Progress.findOne({ user: userId, scenario: scenarioId });
@@ -131,7 +137,7 @@ export const submitChallenge = asyncHandler(async (req, res) => {
       $inc: { attempts: 1 },
       $set: { status: "completed", flagCaptured: true, pointsEarned: total, timeBonus, hintsUsed: validHints, answerDetails, completedAt: new Date(), lastPlayedAt: new Date() }
     },
-    { upsert: true, new: true }
+    { upsert: true, new: true, setDefaultsOnInsert: true }
   );
 
   // Sync exam session totals
