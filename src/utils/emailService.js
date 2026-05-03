@@ -74,7 +74,7 @@ export const sendStudentCredentials = async ({ name, email, password, studentId 
               </div>
               <div class="notice">
                 ⚠ <strong>Important rules before you start:</strong><br/>
-                • The exam is <strong>30 minutes</strong> — once started, the timer cannot be paused.<br/>
+                • The exam is <strong>90 minutes</strong> — once started, the timer cannot be paused.<br/>
                 • Switching or minimising the browser tab will <strong>auto-submit</strong> your exam immediately.<br/>
                 • You have <strong>one attempt only</strong> — there are no retakes.<br/>
                 • Keep these credentials private.
