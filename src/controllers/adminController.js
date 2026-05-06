@@ -259,6 +259,32 @@ export const pardonExam = asyncHandler(async (req, res) => {
   });
 });
 
+// DELETE /api/admin/students/:userId — remove student + all their exam data
+export const deleteStudent = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  const student = await User.findById(userId);
+  if (!student) return res.status(404).json({ message: "Student not found." });
+  if (student.role === "admin") {
+    return res.status(403).json({ message: "Admin accounts cannot be deleted through this endpoint." });
+  }
+
+  // Delete all related data in parallel
+  await Promise.all([
+    Progress.deleteMany({ user: userId }),
+    ExamSession.deleteMany({ user: userId }),
+    User.findByIdAndDelete(userId)
+  ]);
+
+  logger.security("Admin deleted student account", {
+    adminId: req.user._id,
+    deletedUserId: userId,
+    deletedEmail: student.email
+  });
+
+  res.json({ message: `${student.name} and all their exam data have been deleted.` });
+});
+
 // PUT /api/admin/students/:userId/exam-access — toggle or explicitly set examEnabled
 export const toggleExamAccess = asyncHandler(async (req, res) => {
   const { userId } = req.params;

@@ -3,7 +3,7 @@ import { z } from "zod";
 import rateLimit from "express-rate-limit";
 import {
   createStudent, getStudents, getStudentDetail, getAdminLeaderboard,
-  getAdminScenarios, updateScenario, pardonExam, toggleExamAccess
+  getAdminScenarios, updateScenario, pardonExam, toggleExamAccess, deleteStudent
 } from "../controllers/adminController.js";
 import { protect, authorize } from "../middlewares/authMiddleware.js";
 import { validate } from "../middlewares/validateMiddleware.js";
@@ -44,6 +44,7 @@ router.get("/students",                     getStudents);
 router.get("/students/:userId",             getStudentDetail);
 router.post("/students/:userId/pardon",     pardonExam);
 router.put("/students/:userId/exam-access", toggleExamAccess);
+router.delete("/students/:userId",          deleteStudent);
 
 // Leaderboard
 router.get("/leaderboard",       getAdminLeaderboard);
