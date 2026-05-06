@@ -6,27 +6,6 @@ import { logger } from "../utils/logger.js";
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
-function checkAnswers(type, userAnswers, correctAnswers) {
-  if (!Array.isArray(userAnswers)) return false;
-  if (!correctAnswers) return false; // guard: scenario.answers missing from DB
-  if (type === "phishing") {
-    const map = correctAnswers.phishingMap;
-    if (!map || userAnswers.length !== map.length) return false;
-    return userAnswers.every((a, i) => Boolean(a) === Boolean(map[i]));
-  }
-  if (type === "code-review" || type === "log-analysis") {
-    const map = correctAnswers.questionAnswers;
-    if (!map || userAnswers.length !== map.length) return false;
-    return userAnswers.every((a, i) => Number(a) === Number(map[i]));
-  }
-  if (type === "qa-bugs") {
-    const map = correctAnswers.bugMap;
-    if (!map || userAnswers.length !== map.length) return false;
-    return userAnswers.every((a, i) => Boolean(a) === Boolean(map[i]));
-  }
-  return false;
-}
-
 function buildAnswerDetails(type, userAnswers, correctAnswers) {
   const details = [];
   if (!correctAnswers) return details; // guard: missing answers data
@@ -44,9 +23,10 @@ function buildAnswerDetails(type, userAnswers, correctAnswers) {
   return details;
 }
 
-// Scoring is purely answer-based — a passed test earns exactly the scenario's flat point value.
-function computePoints(basePoints) {
-  return { total: basePoints, timeBonus: 0 };
+// Scoring: 1 point per correct answer — 20 questions per scenario, 100 total across 5 scenarios.
+function computePoints(answerDetails) {
+  const correct = answerDetails.filter((d) => d.isCorrect).length;
+  return { total: correct, timeBonus: 0 };
 }
 
 // ─── routes ───────────────────────────────────────────────────────────────────
@@ -77,7 +57,7 @@ export const getScenarioBySlug = asyncHandler(async (req, res) => {
 });
 
 export const submitChallenge = asyncHandler(async (req, res) => {
-  const { scenarioId, answers, hintsUsed = [], timeSpent = 0 } = req.body;
+  const { scenarioId, answers, hintsUsed = [] } = req.body;
   const userId = req.user._id;
 
   // ── Exam session guard ────────────────────────────────────────────────────
@@ -105,37 +85,35 @@ export const submitChallenge = asyncHandler(async (req, res) => {
     return res.status(500).json({ message: "Scenario configuration error. Please contact the administrator." });
   }
 
-  // ── Guard: already submitted this scenario ────────────────────────────────
+  // ── Guard: already submitted this scenario (one attempt only) ────────────
   const existing = await Progress.findOne({ user: userId, scenario: scenarioId });
-  if (existing && (existing.status === "completed" || existing.status === "failed")) {
-    logger.security("Blocked re-submission of locked scenario", { userId, scenarioId, status: existing.status });
+  if (existing && existing.status === "completed") {
+    logger.security("Blocked re-submission of locked scenario", { userId, scenarioId });
     return res.status(409).json({ message: "This scenario has already been submitted." });
   }
 
-  const correct = checkAnswers(scenario.type, answers, scenario.answers);
+  // ── Score: 1 point per correct answer ────────────────────────────────────
   const answerDetails = buildAnswerDetails(scenario.type, answers, scenario.answers);
-
-  if (!correct) {
-    await Progress.findOneAndUpdate(
-      { user: userId, scenario: scenarioId },
-      { $inc: { attempts: 1, wrongAttempts: 1 }, $set: { lastPlayedAt: new Date(), status: "failed", answerDetails } },
-      { upsert: true, new: true, setDefaultsOnInsert: true }
-    );
-    logger.info("Scenario submitted — incorrect", { userId, scenarioId, scenario: scenario.slug });
-    return res.json({ correct: false, message: "Incorrect answers — this scenario is now locked." });
-  }
+  const { total, timeBonus } = computePoints(answerDetails);
 
   const validHints = hintsUsed
-    .filter((i) => i >= 0 && i < scenario.hints.length)
+    .filter((i) => i >= 0 && i < (scenario.hints?.length ?? 0))
     .map((i) => ({ hintIndex: i, cost: scenario.hints[i].cost }));
-
-  const { total, timeBonus } = computePoints(scenario.points);
 
   await Progress.findOneAndUpdate(
     { user: userId, scenario: scenarioId },
     {
       $inc: { attempts: 1 },
-      $set: { status: "completed", flagCaptured: true, pointsEarned: total, timeBonus, hintsUsed: validHints, answerDetails, completedAt: new Date(), lastPlayedAt: new Date() }
+      $set: {
+        status: "completed",
+        flagCaptured: true,
+        pointsEarned: total,
+        timeBonus,
+        hintsUsed: validHints,
+        answerDetails,
+        completedAt: new Date(),
+        lastPlayedAt: new Date()
+      }
     },
     { upsert: true, new: true, setDefaultsOnInsert: true }
   );
@@ -146,8 +124,8 @@ export const submitChallenge = asyncHandler(async (req, res) => {
   session.flagsCaptured = allProgress.length;
   await session.save();
 
-  logger.security("Test passed", { userId, scenarioId, scenario: scenario.slug, points: total });
-  res.json({ correct: true, pointsEarned: total, timeBonus });
+  logger.security("Scenario submitted", { userId, scenarioId, scenario: scenario.slug, pointsEarned: total, outOf: answers.length });
+  res.json({ correct: true, pointsEarned: total, timeBonus, totalQuestions: answers.length });
 });
 
 export const useHint = asyncHandler(async (req, res) => {
