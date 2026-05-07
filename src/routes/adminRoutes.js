@@ -1,6 +1,5 @@
 import express from "express";
 import { z } from "zod";
-import rateLimit from "express-rate-limit";
 import {
   createStudent, getStudents, getStudentDetail, getAdminLeaderboard,
   getAdminScenarios, updateScenario, pardonExam, toggleExamAccess, deleteStudent
@@ -12,15 +11,6 @@ const router = express.Router();
 
 // All admin routes require authenticated admin role
 router.use(protect, authorize("admin"));
-
-// Limit student creation — prevent accidental spam
-const createStudentLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 50,
-  message: { message: "Too many accounts created. Please wait before adding more." },
-  standardHeaders: true,
-  legacyHeaders: false
-});
 
 const createStudentSchema = z.object({
   body: z.object({
@@ -39,7 +29,7 @@ const updateScenarioSchema = z.object({
 });
 
 // Students
-router.post("/students",                    createStudentLimiter, validate(createStudentSchema), createStudent);
+router.post("/students",                    validate(createStudentSchema), createStudent);
 router.get("/students",                     getStudents);
 router.get("/students/:userId",             getStudentDetail);
 router.post("/students/:userId/pardon",     pardonExam);

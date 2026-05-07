@@ -3,7 +3,6 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import rateLimit from "express-rate-limit";
 import { env } from "./config/env.js";
 import { logger } from "./utils/logger.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -78,16 +77,6 @@ app.use(
     credentials: true
   })
 );
-
-// ── Global rate limiter — loose fallback for all routes ───────────────────────
-const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 300,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { message: "Too many requests, please slow down." }
-});
-app.use(globalLimiter);
 
 // ── Health / root ─────────────────────────────────────────────────────────────
 app.get("/", (_req, res) => res.json({ name: "CyberSage API", status: "ok" }));

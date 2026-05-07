@@ -1,18 +1,11 @@
 import express from "express";
 import { z } from "zod";
-import rateLimit from "express-rate-limit";
 import { register, login, refresh, logout, me, updateSkills, updateAvatar } from "../controllers/authController.js";
 import { validate } from "../middlewares/validateMiddleware.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import { uploadAvatar } from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
-
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 20,
-  message: { message: "Too many requests, try again later" }
-});
 
 const loginSchema = z.object({
   body: z.object({
@@ -27,7 +20,7 @@ const skillsSchema = z.object({
   })
 });
 
-router.post("/login",   authLimiter, validate(loginSchema), login);
+router.post("/login",   validate(loginSchema), login);
 router.post("/refresh", refresh);
 router.post("/logout",  logout);
 router.get("/me",       protect, me);
